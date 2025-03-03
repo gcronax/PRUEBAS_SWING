@@ -10,6 +10,7 @@ public class main {
                     "\n 1 Gestion pisos" +
                     "\n 2 Gestion propietarios" +
                     "\n 3 Gestion inquilinos" +
+                    "\n 4 Gestion poblacions" +
                     "\n 0 Finalizar programa");
 
             aux=scan.nextInt();
@@ -19,8 +20,6 @@ public class main {
                 case 2 -> tablas.menuTablas("propietario","propietarios");
                 case 3 -> tablas.menuTablas("inquilino","inquilinos");
                 case 4 -> tablas.menuTablas("poblacio","poblacions");
-                case 5 -> tablas.menuTablas("institut","instituts");
-
 
             }
         }while (aux!=0);
