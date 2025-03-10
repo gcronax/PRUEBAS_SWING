@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -66,7 +67,7 @@ public class tablasrefactorizado {
             JButton btninsertar = new JButton("insertar");
             btninsertar.addActionListener(e -> {
                 insertData();
-                //frameSubMenu.setVisible(false);
+                frameSubMenu.setVisible(false);
             });
             panel.add(btninsertar);
 
@@ -196,21 +197,28 @@ public class tablasrefactorizado {
         Dimension dimension = mipantalla.getScreenSize();
         frameInsertar.setLocation(dimension.width/4, dimension.height/3);
         JPanel panel = new JPanel();
+        ArrayList<JTextField> textFields=new ArrayList<>();
 
         for (int i = 1; i < columns.length; i++) {
             JTextField textField = new JTextField(20);
+            textFields.add(textField);
             JLabel label = new JLabel("Ingrese " + columns[i]);
-            fieldValues[i] = textField.getText();
             panel.add(label);
             panel.add(textField);
         }
-        System.out.println(Arrays.toString(fieldValues));
 
         JButton btninsertar = new JButton("insertar");
         String[] finalColumns = columns;
         Connection finalConn = conn;
         int[] finalTypes = types;
+
         btninsertar.addActionListener(e -> {
+
+            int i=1;
+            for (JTextField text:textFields){
+                fieldValues[i++] =text.getText();
+            }
+
             frameSubMenu.setVisible(true);
             frameInsertar.dispose();
             insertar(finalColumns, finalConn, fieldValues, finalTypes);
