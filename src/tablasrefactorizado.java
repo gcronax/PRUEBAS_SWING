@@ -1,6 +1,10 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class tablasrefactorizado {
@@ -8,7 +12,12 @@ public class tablasrefactorizado {
     public static String tableName;
     public static String[] headers;
     public static int[] columnTypes;
-    private static JFrame frame = null;
+    private static JFrame frameSubMenu = null;
+    private static JFrame frameConsulta = null;
+    private static JFrame frameInsertar = null;
+    private static JFrame frameEliminar = null;
+    private static JFrame frameActualizar = null;
+
     private static final String URL = "jdbc:postgresql://89.36.214.106:5432/geo_1cfsl_3267g";
     private static final String USER = "geo_1cfsl_3267g";
     private static final String PASSWORD = "geo_1cfsl_3267g";
@@ -40,23 +49,51 @@ public class tablasrefactorizado {
         try {
             headers = getHeaders();
             columnTypes = getColumnTypes();
-            Scanner scanner = new Scanner(System.in);
-            int option;
-            do {
-                System.out.println("¿Qué deseas hacer en " + tableName + "?:" +
-                        "\n 1. Consultar datos" +
-                        "\n 2. Añadir " + entityName +
-                        "\n 3. Eliminar " + entityName +
-                        "\n 4. Actualizar " + entityName +
-                        "\n 0. Finalizar consulta");
-                option = scanner.nextInt();
-                switch (option) {
-                    case 1 -> queryData();
-                    case 2 -> insertData();
-                    case 3 -> deleteData();
-                    case 4 -> updateData();
-                }
-            } while (option != 0);
+
+            frameSubMenu = new JFrame("Gestion de "+tableName);
+            frameSubMenu.setSize(600, 100);
+            Toolkit mipantalla= Toolkit.getDefaultToolkit();
+            Dimension dimension = mipantalla.getScreenSize();
+            frameSubMenu.setLocation(dimension.width/4, dimension.height/3);
+            JPanel panel = new JPanel();
+
+            JButton btnconsultar = new JButton("consultar");
+            btnconsultar.addActionListener(e -> {
+                queryData();
+            });
+            panel.add(btnconsultar);
+
+            JButton btninsertar = new JButton("insertar");
+            btninsertar.addActionListener(e -> {
+                insertData();
+                //frameSubMenu.setVisible(false);
+            });
+            panel.add(btninsertar);
+
+            JButton btneliminar = new JButton("eliminar");
+            btneliminar.addActionListener(e -> {
+                deleteData();
+            });
+            panel.add(btneliminar);
+
+            JButton btnactualizar = new JButton("actualizar");
+            btnactualizar.addActionListener(e -> {
+                updateData();
+            });
+            panel.add(btnactualizar);
+
+            JButton btnsalir = new JButton("salir");
+            btnsalir.addActionListener(e -> {
+                frameSubMenu.dispose();
+                main.frameMenu.setVisible(true);
+            });
+            panel.add(btnsalir);
+
+
+            frameSubMenu.add(panel);
+            panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+            frameSubMenu.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            frameSubMenu.setVisible(true);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -90,21 +127,21 @@ public class tablasrefactorizado {
                 }
                 model.addRow(row);
             }
-            if (frame == null) {
-                frame = new JFrame("Listado de " + tableName);
-                frame.setSize(900, 400);
+            if (frameConsulta == null) {
+                frameConsulta = new JFrame("Listado de " + tableName);
+                frameConsulta.setSize(900, 400);
                 JScrollPane scrollPane = new JScrollPane(table);
-                frame.add(scrollPane);
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameConsulta.add(scrollPane);
+                frameConsulta.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             } else {
-                frame.getContentPane().removeAll();
-                frame.setTitle("Listado de " + tableName);
+                frameConsulta.getContentPane().removeAll();
+                frameConsulta.setTitle("Listado de " + tableName);
                 JScrollPane scrollPane = new JScrollPane(table);
-                frame.add(scrollPane);
-                frame.revalidate();
-                frame.repaint();
+                frameConsulta.add(scrollPane);
+                frameConsulta.revalidate();
+                frameConsulta.repaint();
             }
-            frame.setVisible(true);
+            frameConsulta.setVisible(true);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
@@ -152,11 +189,43 @@ public class tablasrefactorizado {
         Scanner scanner = new Scanner(System.in);
         String[] fieldValues = new String[columns.length];
 
-        for (int i = 1; i < columns.length; i++) {
-            System.out.print("Ingrese " + columns[i] + ": ");
-            fieldValues[i] = scanner.nextLine();
-        }
 
+        frameInsertar = new JFrame("Insertar en "+tableName);
+        frameInsertar.setSize(300, 600);
+        Toolkit mipantalla= Toolkit.getDefaultToolkit();
+        Dimension dimension = mipantalla.getScreenSize();
+        frameInsertar.setLocation(dimension.width/4, dimension.height/3);
+        JPanel panel = new JPanel();
+
+        for (int i = 1; i < columns.length; i++) {
+            JTextField textField = new JTextField(20);
+            JLabel label = new JLabel("Ingrese " + columns[i]);
+            fieldValues[i] = textField.getText();
+            panel.add(label);
+            panel.add(textField);
+        }
+        System.out.println(Arrays.toString(fieldValues));
+
+        JButton btninsertar = new JButton("insertar");
+        String[] finalColumns = columns;
+        Connection finalConn = conn;
+        int[] finalTypes = types;
+        btninsertar.addActionListener(e -> {
+            frameSubMenu.setVisible(true);
+            frameInsertar.dispose();
+            insertar(finalColumns, finalConn, fieldValues, finalTypes);
+
+        });
+        panel.add(btninsertar);
+
+        frameInsertar.add(panel);
+        frameInsertar.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frameInsertar.setVisible(true);
+
+
+    }
+
+    private static void insertar(String[] columns, Connection conn, String[] fieldValues, int[] types) {
         StringBuilder sql = new StringBuilder("INSERT INTO " + tableName + " (");
         StringBuilder values = new StringBuilder(" VALUES (");
 
