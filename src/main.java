@@ -46,7 +46,6 @@ public class main {
 
 
         frameMenu.add(panel);
-        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         frameMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameMenu.setVisible(true);
 

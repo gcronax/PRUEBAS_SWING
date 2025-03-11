@@ -93,7 +93,6 @@ public class tablasrefactorizado {
 
 
             frameSubMenu.add(panel);
-            panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
             frameSubMenu.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             frameSubMenu.setVisible(true);
 
@@ -110,7 +109,7 @@ public class tablasrefactorizado {
         try {
             conn = connect();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM " + tableName);
+            rs = stmt.executeQuery("SELECT * FROM " + tableName +" order by "+headers[0]);
             ResultSetMetaData metaData = rs.getMetaData();
             int columnCount = metaData.getColumnCount();
             String[] columns = new String[columnCount];
@@ -294,7 +293,7 @@ public class tablasrefactorizado {
 
     public static void deleteData() {
 
-        frameEliminar = new JFrame("Ingrese el ID de " + entityName + " que desea eliminar: ");
+        frameEliminar = new JFrame("Ingrese el ID de " + entityName + " que desea eliminar");
         frameEliminar.setSize(400, 100);
         Toolkit mipantalla= Toolkit.getDefaultToolkit();
         Dimension dimension = mipantalla.getScreenSize();
@@ -354,14 +353,12 @@ public class tablasrefactorizado {
 
     public static void updateData() {
         //dejar solo id y generar dinamicamente botones por nombre campo a actualizar que contengan la llamada en si a insertar donde su text field sea local y id global
-        frameActualizar = new JFrame("Actualizar en "+tableName);
-        frameActualizar.setSize(300, 600);
+        frameActualizar = new JFrame("Actualizar "+tableName);
+        frameActualizar.setSize(430, 600);
         Toolkit mipantalla= Toolkit.getDefaultToolkit();
         Dimension dimension = mipantalla.getScreenSize();
         frameActualizar.setLocation(dimension.width/4, dimension.height/3);
         JPanel panel = new JPanel();
-        ArrayList<JTextField> textFields=new ArrayList<>();
-
         JTextField textFieldid = new JTextField(20);
 
         JLabel labelid = new JLabel("Ingrese el ID del " + entityName);
@@ -369,7 +366,6 @@ public class tablasrefactorizado {
         panel.add(textFieldid);
 
         for (int i = 1; i < headers.length; i++) {
-            System.out.println(i + " " + headers[i]);
 
             JTextField textField = new JTextField(20); // Campo de texto
             JButton button = new JButton("Actualizar "+headers[i]);
@@ -378,7 +374,7 @@ public class tablasrefactorizado {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     actualizar(finalI, textField.getText(), Integer.parseInt(textFieldid.getText()));
-
+                    queryData();
                 }
             });
             panel.add(button);
