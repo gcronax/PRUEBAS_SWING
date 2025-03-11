@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -77,6 +79,7 @@ public class tablasrefactorizado {
             JButton btnactualizar = new JButton("actualizar");
             btnactualizar.addActionListener(e -> {
                 updateData();
+                frameSubMenu.setVisible(false);
             });
             panel.add(btnactualizar);
 
@@ -319,24 +322,50 @@ public class tablasrefactorizado {
     }
 
     public static void updateData() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Ingrese el ID del " + entityName + " que desea actualizar: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+        //dejar solo id y generar dinamicamente botones por nombre campo a actualizar que contengan la llamada en si a insertar donde su text field sea local y id global
+        frameActualizar = new JFrame("Actualizar en "+tableName);
+        frameActualizar.setSize(300, 600);
+        Toolkit mipantalla= Toolkit.getDefaultToolkit();
+        Dimension dimension = mipantalla.getScreenSize();
+        frameActualizar.setLocation(dimension.width/4, dimension.height/3);
+        JPanel panel = new JPanel();
+        ArrayList<JTextField> textFields=new ArrayList<>();
 
-        System.out.println("¿Qué campo quieres actualizar?");
+        JTextField textFieldid = new JTextField(20);
+
+        JLabel labelid = new JLabel("Ingrese el ID del " + entityName);
+        panel.add(labelid);
+        panel.add(textFieldid);
+
         for (int i = 1; i < headers.length; i++) {
             System.out.println(i + " " + headers[i]);
+
+            JTextField textField = new JTextField(20); // Campo de texto
+            JButton button = new JButton("Actualizar "+headers[i]);
+            int finalI = i;
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    actualizar(finalI, textField.getText(), Integer.parseInt(textFieldid.getText()));
+
+                }
+            });
+            panel.add(button);
+            panel.add(textField);
+
+
         }
 
-        int selection = scanner.nextInt();
-        scanner.nextLine();
 
-        System.out.print("Ingrese el valor a cambiar: ");
-        String newValue = scanner.nextLine();
-
-        actualizar(selection, newValue, id);
-
+        JButton btncancelar = new JButton("cancelar");
+        btncancelar.addActionListener(e -> {
+            frameSubMenu.setVisible(true);
+            frameActualizar.dispose();
+        });
+        panel.add(btncancelar);
+        frameActualizar.add(panel);
+        frameActualizar.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frameActualizar.setVisible(true);
     }
 
     private static void actualizar(int selection, String newValue, int id) {
