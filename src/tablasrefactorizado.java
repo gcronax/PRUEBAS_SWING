@@ -295,7 +295,7 @@ public class tablasrefactorizado {
     public static void deleteData() {
 
         frameEliminar = new JFrame("Ingrese el ID de " + entityName + " que desea eliminar: ");
-        frameEliminar.setSize(300, 600);
+        frameEliminar.setSize(400, 100);
         Toolkit mipantalla= Toolkit.getDefaultToolkit();
         Dimension dimension = mipantalla.getScreenSize();
         frameEliminar.setLocation(dimension.width/4, dimension.height/3);
