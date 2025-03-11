@@ -73,6 +73,7 @@ public class tablasrefactorizado {
             JButton btneliminar = new JButton("eliminar");
             btneliminar.addActionListener(e -> {
                 deleteData();
+                frameSubMenu.setVisible(false);
             });
             panel.add(btneliminar);
 
@@ -292,10 +293,40 @@ public class tablasrefactorizado {
     }
 
     public static void deleteData() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Ingrese el ID de " + entityName + " que desea eliminar: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+
+        frameEliminar = new JFrame("Ingrese el ID de " + entityName + " que desea eliminar: ");
+        frameEliminar.setSize(300, 600);
+        Toolkit mipantalla= Toolkit.getDefaultToolkit();
+        Dimension dimension = mipantalla.getScreenSize();
+        frameEliminar.setLocation(dimension.width/4, dimension.height/3);
+        JPanel panel = new JPanel();
+
+        JTextField textField = new JTextField(20); // Campo de texto
+        JButton button = new JButton("eliminar id");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eliminar(Integer.parseInt(textField.getText()));
+            }
+        });
+        panel.add(textField);
+        panel.add(button);
+
+        JButton btncancelar = new JButton("cancelar");
+        btncancelar.addActionListener(e -> {
+            frameSubMenu.setVisible(true);
+            frameEliminar.dispose();
+        });
+        panel.add(btncancelar);
+
+        frameEliminar.add(panel);
+        frameEliminar.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frameEliminar.setVisible(true);
+
+
+    }
+
+    private static void eliminar(int id) {
         PreparedStatement pstmt = null;
         Connection conn = null;
 
