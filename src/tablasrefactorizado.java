@@ -1,11 +1,8 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class tablasrefactorizado {
@@ -207,11 +204,11 @@ public class tablasrefactorizado {
             panel.add(textField);
         }
 
-        JButton btninsertar = new JButton("insertar");
         String[] finalColumns = columns;
         Connection finalConn = conn;
         int[] finalTypes = types;
 
+        JButton btninsertar = new JButton("insertar");
         btninsertar.addActionListener(e -> {
 
             int i=1;
@@ -225,6 +222,12 @@ public class tablasrefactorizado {
 
         });
         panel.add(btninsertar);
+        JButton btncancelar = new JButton("cancelar");
+        btncancelar.addActionListener(e -> {
+            frameSubMenu.setVisible(true);
+            frameInsertar.dispose();
+        });
+        panel.add(btncancelar);
 
         frameInsertar.add(panel);
         frameInsertar.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -332,6 +335,11 @@ public class tablasrefactorizado {
         System.out.print("Ingrese el valor a cambiar: ");
         String newValue = scanner.nextLine();
 
+        actualizar(selection, newValue, id);
+
+    }
+
+    private static void actualizar(int selection, String newValue, int id) {
         PreparedStatement pstmt = null;
         Connection conn = null;
 
