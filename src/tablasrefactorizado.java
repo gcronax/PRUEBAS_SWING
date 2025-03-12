@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class tablasrefactorizado {
@@ -191,7 +192,7 @@ public class tablasrefactorizado {
         String[] fieldValues = new String[columns.length];
 
 
-        frameInsertar = new JFrame("Insertar en "+tableName);
+        frameInsertar = new JFrame("Añadir "+tableName);
         frameInsertar.setSize(300, 600);
         Toolkit mipantalla= Toolkit.getDefaultToolkit();
         Dimension dimension = mipantalla.getScreenSize();
@@ -222,6 +223,7 @@ public class tablasrefactorizado {
             frameSubMenu.setVisible(true);
             frameInsertar.dispose();
             insertar(finalColumns, finalConn, fieldValues, finalTypes);
+            queryData();
 
         });
         panel.add(btninsertar);
@@ -306,6 +308,7 @@ public class tablasrefactorizado {
             @Override
             public void actionPerformed(ActionEvent e) {
                 eliminar(Integer.parseInt(textField.getText()));
+                queryData();
             }
         });
         panel.add(textField);
@@ -365,24 +368,32 @@ public class tablasrefactorizado {
         panel.add(labelid);
         panel.add(textFieldid);
 
+        ArrayList<JTextField> textFields=new ArrayList<>();
+
         for (int i = 1; i < headers.length; i++) {
-
-            JTextField textField = new JTextField(20); // Campo de texto
-            JButton button = new JButton("Actualizar "+headers[i]);
-            int finalI = i;
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    actualizar(finalI, textField.getText(), Integer.parseInt(textFieldid.getText()));
-                    queryData();
-                }
-            });
-            panel.add(button);
+            JTextField textField = new JTextField(20);
+            textFields.add(textField);
+            JLabel label = new JLabel("Ingrese " + headers[i]);
+            panel.add(label);
             panel.add(textField);
-
-
         }
 
+        JButton btnactualizar = new JButton("actualizar");
+        btnactualizar.addActionListener(e -> {
+            int i=1;
+            for (JTextField text:textFields){
+                if (!Objects.equals(text.getText(), "")){
+                    System.out.println(text.getText());
+                    actualizar(i, text.getText(), Integer.parseInt(textFieldid.getText()));
+                }
+                i++;
+            }
+            frameActualizar.dispose();
+            frameSubMenu.setVisible(true);
+            queryData();
+
+        });
+        panel.add(btnactualizar);
 
         JButton btncancelar = new JButton("cancelar");
         btncancelar.addActionListener(e -> {

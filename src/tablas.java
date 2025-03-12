@@ -32,7 +32,7 @@ public class tablas {
         try {
             if (conn != null) {
                 conn.close();
-                //System.out.println("Conexión cerrada");
+                System.out.println("Conexión cerrada");
             }
         } catch (SQLException ex) {
             System.out.println("Error: " + ex.getMessage());
