@@ -131,7 +131,7 @@ public class tablasrefactorizado {
             }
             if (frameConsulta == null) {
                 frameConsulta = new JFrame("Listado de " + tableName);
-                frameConsulta.setSize(900, 400);
+                frameConsulta.setSize(800, 400);
                 JScrollPane scrollPane = new JScrollPane(table);
                 frameConsulta.add(scrollPane);
                 frameConsulta.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -357,13 +357,14 @@ public class tablasrefactorizado {
     public static void updateData() {
         //dejar solo id y generar dinamicamente botones por nombre campo a actualizar que contengan la llamada en si a insertar donde su text field sea local y id global
         frameActualizar = new JFrame("Actualizar "+tableName);
-        frameActualizar.setSize(430, 600);
+        frameActualizar.setSize(400, 600);
         Toolkit mipantalla= Toolkit.getDefaultToolkit();
         Dimension dimension = mipantalla.getScreenSize();
         frameActualizar.setLocation(dimension.width/4, dimension.height/3);
         JPanel panel = new JPanel();
-        JTextField textFieldid = new JTextField(20);
-
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); // Diseño vertical
+        JTextField textFieldid = new JTextField(2);
+        textFieldid.setMaximumSize(new Dimension(500,50));
         JLabel labelid = new JLabel("Ingrese el ID del " + entityName);
         panel.add(labelid);
         panel.add(textFieldid);
@@ -372,12 +373,15 @@ public class tablasrefactorizado {
 
         for (int i = 1; i < headers.length; i++) {
             JTextField textField = new JTextField(20);
+            textField.setMaximumSize(new Dimension(500,50));
+
             textFields.add(textField);
             JLabel label = new JLabel("Ingrese " + headers[i]);
             panel.add(label);
             panel.add(textField);
         }
 
+        panel.add(Box.createVerticalStrut(10)); // Espacio entre componentes
         JButton btnactualizar = new JButton("actualizar");
         btnactualizar.addActionListener(e -> {
             int i=1;
@@ -401,6 +405,7 @@ public class tablasrefactorizado {
             frameActualizar.dispose();
         });
         panel.add(btncancelar);
+        //panel.setLayout( new BoxLayout(panel,BoxLayout.Y_AXIS));
         frameActualizar.add(panel);
         frameActualizar.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frameActualizar.setVisible(true);
