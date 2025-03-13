@@ -55,9 +55,9 @@ public class tablasrefactorizado {
             frameSubMenu.setSize(600, 100);
             Toolkit mipantalla= Toolkit.getDefaultToolkit();
             Dimension dimension = mipantalla.getScreenSize();
-            frameSubMenu.setLocation(dimension.width/4, dimension.height/3);
+            frameSubMenu.setLocation(dimension.width/4, dimension.height/4);
             JPanel panel = new JPanel();
-
+            panel.setLayout(new GridLayout(1, 1));
             JButton btnconsultar = new JButton("consultar");
             btnconsultar.addActionListener(e -> {
                 queryData();
@@ -198,6 +198,7 @@ public class tablasrefactorizado {
         Dimension dimension = mipantalla.getScreenSize();
         frameInsertar.setLocation(dimension.width/4, dimension.height/3);
         JPanel panel = new JPanel();
+
         ArrayList<JTextField> textFields=new ArrayList<>();
 
         for (int i = 1; i < columns.length; i++) {
@@ -362,8 +363,7 @@ public class tablasrefactorizado {
         Dimension dimension = mipantalla.getScreenSize();
         frameActualizar.setLocation(dimension.width/4, dimension.height/3);
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); // Diseño vertical
-        JTextField textFieldid = new JTextField(2);
+        JTextField textFieldid = new JTextField(20);
         textFieldid.setMaximumSize(new Dimension(500,50));
         JLabel labelid = new JLabel("Ingrese el ID del " + entityName);
         panel.add(labelid);
@@ -380,6 +380,8 @@ public class tablasrefactorizado {
             panel.add(label);
             panel.add(textField);
         }
+        JLabel espacio = new JLabel("<html>qq<br>aa</html>");
+        panel.add(espacio);
 
         panel.add(Box.createVerticalStrut(10)); // Espacio entre componentes
         JButton btnactualizar = new JButton("actualizar");

@@ -15,7 +15,7 @@ public class main {
         frameMenu.setLocation(dimension.width/4, dimension.height/4);
 
         JPanel panel = new JPanel();
-
+        panel.setLayout(new GridLayout(1, 1));
         JButton btnpisos = new JButton("pisos");
         btnpisos.addActionListener(e -> {
             tablasrefactorizado.menuTablas("piso","pisos");
