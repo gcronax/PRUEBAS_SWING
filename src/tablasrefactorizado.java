@@ -302,8 +302,9 @@ public class tablasrefactorizado {
         Dimension dimension = mipantalla.getScreenSize();
         frameEliminar.setLocation(dimension.width/4, dimension.height/3);
         JPanel panel = new JPanel();
-
-        JTextField textField = new JTextField(20); // Campo de texto
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        JTextField textField = new JTextField(20);
+        textField.setMaximumSize(new Dimension(400,30));// Campo de texto
         JButton button = new JButton("eliminar id");
         button.addActionListener(new ActionListener() {
             @Override
@@ -358,7 +359,7 @@ public class tablasrefactorizado {
     public static void updateData() {
         //dejar solo id y generar dinamicamente botones por nombre campo a actualizar que contengan la llamada en si a insertar donde su text field sea local y id global
         frameActualizar = new JFrame("Actualizar "+tableName);
-        frameActualizar.setSize(250, 500);
+        frameActualizar.setSize(300, 500);
         Toolkit mipantalla= Toolkit.getDefaultToolkit();
         Dimension dimension = mipantalla.getScreenSize();
         frameActualizar.setLocation(dimension.width/4, dimension.height/3);
