@@ -358,13 +358,14 @@ public class tablasrefactorizado {
     public static void updateData() {
         //dejar solo id y generar dinamicamente botones por nombre campo a actualizar que contengan la llamada en si a insertar donde su text field sea local y id global
         frameActualizar = new JFrame("Actualizar "+tableName);
-        frameActualizar.setSize(400, 600);
+        frameActualizar.setSize(250, 500);
         Toolkit mipantalla= Toolkit.getDefaultToolkit();
         Dimension dimension = mipantalla.getScreenSize();
         frameActualizar.setLocation(dimension.width/4, dimension.height/3);
         JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JTextField textFieldid = new JTextField(20);
-        textFieldid.setMaximumSize(new Dimension(500,50));
+        textFieldid.setMaximumSize(new Dimension(400,20));
         JLabel labelid = new JLabel("Ingrese el ID del " + entityName);
         panel.add(labelid);
         panel.add(textFieldid);
@@ -373,15 +374,13 @@ public class tablasrefactorizado {
 
         for (int i = 1; i < headers.length; i++) {
             JTextField textField = new JTextField(20);
-            textField.setMaximumSize(new Dimension(500,50));
+            textField.setMaximumSize(new Dimension(400,20));
 
             textFields.add(textField);
             JLabel label = new JLabel("Ingrese " + headers[i]);
             panel.add(label);
             panel.add(textField);
         }
-        JLabel espacio = new JLabel("<html>qq<br>aa</html>");
-        panel.add(espacio);
 
         panel.add(Box.createVerticalStrut(10)); // Espacio entre componentes
         JButton btnactualizar = new JButton("actualizar");
@@ -409,6 +408,8 @@ public class tablasrefactorizado {
         panel.add(btncancelar);
         //panel.setLayout( new BoxLayout(panel,BoxLayout.Y_AXIS));
         frameActualizar.add(panel);
+        JScrollPane scrollPane = new JScrollPane(panel);
+        frameActualizar.add(scrollPane);
         frameActualizar.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frameActualizar.setVisible(true);
     }
