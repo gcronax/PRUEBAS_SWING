@@ -226,7 +226,11 @@ public class tablasrefactorizado {
             }
 
             if (mostrarDialogo(frameInsertar)){
-                insertar(finalColumns, finalConn, fieldValues, finalTypes);
+                try{
+                    insertar(finalColumns, finalConn, fieldValues, finalTypes);
+                }catch (Exception es) {
+                    System.out.println("Error al insertar " + entityName + ": " + es.getMessage());
+                }
                 frameInsertar.dispose();
                 frameSubMenu.setVisible(true);
                 queryData();
@@ -401,17 +405,24 @@ public class tablasrefactorizado {
         panel.add(Box.createVerticalStrut(10)); // Espacio entre componentes
         JButton btnactualizar = new JButton("actualizar");
         btnactualizar.addActionListener(e -> {
-            int i=1;
-            for (JTextField text:textFields){
-                if (!Objects.equals(text.getText(), "")){
-                    System.out.println(text.getText());
-                    actualizar(i, text.getText(), Integer.parseInt(textFieldid.getText()));
+            if (mostrarDialogo(frameActualizar)){
+                try{
+                    int i=1;
+                    for (JTextField text:textFields){
+                        if (!Objects.equals(text.getText(), "")){
+                            //System.out.println(text.getText());
+                            actualizar(i, text.getText(), Integer.parseInt(textFieldid.getText()));
+                        }
+                        i++;
+                    }
+                }catch (Exception es) {
+                    System.out.println("Error al actualizar el " + entityName + ": " + es.getMessage());
                 }
-                i++;
+                frameActualizar.dispose();
+                frameSubMenu.setVisible(true);
+                queryData();
             }
-            frameActualizar.dispose();
-            frameSubMenu.setVisible(true);
-            queryData();
+
 
         });
         panel.add(btnactualizar);
