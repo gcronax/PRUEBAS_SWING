@@ -162,11 +162,7 @@ public class tablasrefactorizado {
             tableHeader.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    if (click[0]){
-                        click[0] =false;
-                    }else{
-                        click[0] =true;
-                    }
+                    click[0] = !click[0];
                     queryData(tableHeader.columnAtPoint(e.getPoint()), click[0]);
                 }
             });
