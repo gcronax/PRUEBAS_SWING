@@ -1,8 +1,11 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -60,7 +63,7 @@ public class tablasrefactorizado {
             panel.setLayout(new GridLayout(1, 1));
             JButton btnconsultar = new JButton("consultar");
             btnconsultar.addActionListener(e -> {
-                queryData();
+                queryData(0,true);
             });
             panel.add(btnconsultar);
 
@@ -102,7 +105,7 @@ public class tablasrefactorizado {
         }
     }
 
-    public static void queryData() {
+    public static void queryData(int x,boolean bool) {
         Statement stmt = null;
         ResultSet rs = null;
         Connection conn = null;
@@ -110,7 +113,7 @@ public class tablasrefactorizado {
         try {
             conn = connect();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM " + tableName +" order by "+headers[0]);
+            rs = stmt.executeQuery("SELECT * FROM " + tableName +" order by "+headers[x]);
             ResultSetMetaData metaData = rs.getMetaData();
             int columnCount = metaData.getColumnCount();
             String[] columns = new String[columnCount];
@@ -148,6 +151,28 @@ public class tablasrefactorizado {
             Dimension dimension = mipantalla.getScreenSize();
             frameConsulta.setLocation(dimension.width/4, dimension.height/2);
             frameConsulta.setVisible(true);
+
+//            table.getSelectionModel().addListSelectionListener(e ->{
+//                if (!e.getValueIsAdjusting()){
+//                    System.out.println(headers[table.getSelectedColumn()]);
+//                }
+//            });
+            final boolean[] click = {true};
+            JTableHeader tableHeader = table.getTableHeader();
+            tableHeader.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (click[0]){
+                        click[0] =false;
+                    }else{
+                        click[0] =true;
+                    }
+                    System.out.println(click[0]);
+                    queryData(tableHeader.columnAtPoint(e.getPoint()), click[0]);
+                }
+            });
+
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
@@ -233,7 +258,7 @@ public class tablasrefactorizado {
                 }
                 frameInsertar.dispose();
                 frameSubMenu.setVisible(true);
-                queryData();
+                queryData(0,true);
             }
 
         });
@@ -328,7 +353,7 @@ public class tablasrefactorizado {
                     }
                     frameEliminar.dispose();
                     frameSubMenu.setVisible(true);
-                    queryData();
+                    queryData(0,true);
                 }
             }
         });
@@ -420,7 +445,7 @@ public class tablasrefactorizado {
                 }
                 frameActualizar.dispose();
                 frameSubMenu.setVisible(true);
-                queryData();
+                queryData(0,true);
             }
 
 
