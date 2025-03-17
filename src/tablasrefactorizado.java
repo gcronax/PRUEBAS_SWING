@@ -104,6 +104,7 @@ public class tablasrefactorizado {
             System.out.println(e.getMessage());
         }
     }
+    static final boolean[] click = {true};
 
     public static void queryData(int x,boolean bool) {
         Statement stmt = null;
@@ -113,7 +114,7 @@ public class tablasrefactorizado {
         try {
             conn = connect();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM " + tableName +" order by "+headers[x]);
+            rs = stmt.executeQuery("SELECT * FROM " + tableName +" order by "+headers[x]+(bool?" asc":" desc"));
             ResultSetMetaData metaData = rs.getMetaData();
             int columnCount = metaData.getColumnCount();
             String[] columns = new String[columnCount];
@@ -157,7 +158,6 @@ public class tablasrefactorizado {
 //                    System.out.println(headers[table.getSelectedColumn()]);
 //                }
 //            });
-            final boolean[] click = {true};
             JTableHeader tableHeader = table.getTableHeader();
             tableHeader.addMouseListener(new MouseAdapter() {
                 @Override
@@ -167,7 +167,6 @@ public class tablasrefactorizado {
                     }else{
                         click[0] =true;
                     }
-                    System.out.println(click[0]);
                     queryData(tableHeader.columnAtPoint(e.getPoint()), click[0]);
                 }
             });
