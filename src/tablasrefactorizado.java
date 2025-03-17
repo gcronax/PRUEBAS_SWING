@@ -129,6 +129,7 @@ public class tablasrefactorizado {
                 }
                 model.addRow(row);
             }
+
             if (frameConsulta == null) {
                 frameConsulta = new JFrame("Listado de " + tableName);
                 frameConsulta.setSize(800, 400);
@@ -143,6 +144,9 @@ public class tablasrefactorizado {
                 frameConsulta.revalidate();
                 frameConsulta.repaint();
             }
+            Toolkit mipantalla= Toolkit.getDefaultToolkit();
+            Dimension dimension = mipantalla.getScreenSize();
+            frameConsulta.setLocation(dimension.width/4, dimension.height/2);
             frameConsulta.setVisible(true);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -221,10 +225,12 @@ public class tablasrefactorizado {
                 fieldValues[i++] =text.getText();
             }
 
-            frameSubMenu.setVisible(true);
-            frameInsertar.dispose();
-            insertar(finalColumns, finalConn, fieldValues, finalTypes);
-            queryData();
+            if (mostrarDialogo(frameInsertar)){
+                insertar(finalColumns, finalConn, fieldValues, finalTypes);
+                frameInsertar.dispose();
+                frameSubMenu.setVisible(true);
+                queryData();
+            }
 
         });
         panel.add(btninsertar);
@@ -309,8 +315,17 @@ public class tablasrefactorizado {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                eliminar(Integer.parseInt(textField.getText()));
-                queryData();
+                if (mostrarDialogo(frameEliminar)){
+                    try{
+                        eliminar(Integer.parseInt(textField.getText()));
+
+                    }catch (Exception es) {
+                        System.out.println("Error al eliminar el " + entityName + ": " + es.getMessage());
+                    }
+                    frameEliminar.dispose();
+                    frameSubMenu.setVisible(true);
+                    queryData();
+                }
             }
         });
         panel.add(textField);
@@ -454,6 +469,37 @@ public class tablasrefactorizado {
                 System.out.println(ex.getMessage());
             }
         }
+    }
+
+    private static boolean mostrarDialogo(JFrame framselect) {
+        final boolean[] select = {false};
+        JDialog dialogo = new JDialog(framselect, "Warning", true);
+        dialogo.setSize(180, 100); // Tamaño del diálogo.
+        dialogo.setLayout(new FlowLayout());
+        JLabel etiqueta = new JLabel("Esta usted seguro?");
+        JButton btnCerrar = new JButton("Cerrar");
+        btnCerrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialogo.dispose(); // cierra el JDialog.
+
+            }
+        });
+        JButton btnAceptar = new JButton("Aceptar");
+        btnAceptar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                select[0] =true;
+                dialogo.dispose(); // cierra el JDialog.
+
+            }
+        });
+        dialogo.add(etiqueta);
+        dialogo.add(btnAceptar);
+        dialogo.add(btnCerrar);
+        dialogo.setLocationRelativeTo(framselect);
+        dialogo.setVisible(true);
+        return select[0];
     }
 
     public static String[] getHeaders() {
