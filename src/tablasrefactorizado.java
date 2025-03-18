@@ -21,7 +21,7 @@ public class tablasrefactorizado {
     private static JFrame frameInsertar = null;
     private static JFrame frameEliminar = null;
     private static JFrame frameActualizar = null;
-
+    public static int cambiante;
     private static final String URL = "jdbc:postgresql://89.36.214.106:5432/geo_1cfsl_3267g";
     private static final String USER = "geo_1cfsl_3267g";
     private static final String PASSWORD = "geo_1cfsl_3267g";
@@ -153,11 +153,7 @@ public class tablasrefactorizado {
             frameConsulta.setLocation(dimension.width/4, dimension.height/2);
             frameConsulta.setVisible(true);
 
-//            table.getSelectionModel().addListSelectionListener(e ->{
-//                if (!e.getValueIsAdjusting()){
-//                    System.out.println(headers[table.getSelectedColumn()]);
-//                }
-//            });
+
             JTableHeader tableHeader = table.getTableHeader();
             tableHeader.addMouseListener(new MouseAdapter() {
                 @Override
@@ -167,6 +163,10 @@ public class tablasrefactorizado {
                 }
             });
 
+            table.getSelectionModel().addListSelectionListener(e ->{
+                cambiante= (int) table.getValueAt(table.getSelectedRow(),0);
+
+            });
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -335,6 +335,8 @@ public class tablasrefactorizado {
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         JTextField textField = new JTextField(20);
         textField.setMaximumSize(new Dimension(400,30));// Campo de texto
+        textField.setText(String.valueOf(cambiante));
+
         JButton button = new JButton("eliminar id");
         button.addActionListener(new ActionListener() {
             @Override
@@ -406,6 +408,8 @@ public class tablasrefactorizado {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JTextField textFieldid = new JTextField(20);
         textFieldid.setMaximumSize(new Dimension(400,20));
+
+        textFieldid.setText(String.valueOf(cambiante));
         JLabel labelid = new JLabel("Ingrese el ID del " + entityName);
         panel.add(labelid);
         panel.add(textFieldid);
