@@ -230,7 +230,7 @@ public class tablasrefactorizado {
         frameInsertar.setSize(300, 600);
         Toolkit mipantalla= Toolkit.getDefaultToolkit();
         Dimension dimension = mipantalla.getScreenSize();
-        frameInsertar.setLocation(dimension.width/4, dimension.height/3);
+        frameInsertar.setLocation(dimension.width/20, dimension.height/3);
         JPanel panel = new JPanel();
 
         ArrayList<JTextField> textFields=new ArrayList<>();
@@ -425,7 +425,7 @@ public class tablasrefactorizado {
         frameActualizar.setSize(300, 500);
         Toolkit mipantalla= Toolkit.getDefaultToolkit();
         Dimension dimension = mipantalla.getScreenSize();
-        frameActualizar.setLocation(dimension.width/4, dimension.height/3);
+        frameActualizar.setLocation(dimension.width/20, dimension.height/3);
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JTextField textFieldid = new JTextField(20);
