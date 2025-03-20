@@ -22,6 +22,7 @@ public class main {
             frameMenu.setVisible(false);
         });
         btnpisos.setFont(new Font("Arial", Font.BOLD, 18));
+        btnpisos.setBackground(Color.lightGray);
         panel.add(btnpisos);
 
         JButton btnpropietarios = new JButton("propietarios");
@@ -29,6 +30,8 @@ public class main {
             tablasrefactorizado.menuTablas("propietario","propietarios");
             frameMenu.setVisible(false);
         });
+        btnpropietarios.setFont(new Font("Arial", Font.BOLD, 18));
+        btnpropietarios.setBackground(Color.lightGray);
         panel.add(btnpropietarios);
 
         JButton btninquilinos = new JButton("inquilinos");
@@ -36,6 +39,8 @@ public class main {
             tablasrefactorizado.menuTablas("inquilino","inquilinos");
             frameMenu.setVisible(false);
         });
+        btninquilinos.setFont(new Font("Arial", Font.BOLD, 18));
+        btninquilinos.setBackground(Color.lightGray);
         panel.add(btninquilinos);
 
         JButton btnpoblacions = new JButton("poblacions");
@@ -43,8 +48,9 @@ public class main {
             tablasrefactorizado.menuTablas("poblacion","poblacions");
             frameMenu.setVisible(false);
         });
+        btnpoblacions.setFont(new Font("Arial", Font.BOLD, 18));
+        btnpoblacions.setBackground(Color.lightGray);
         panel.add(btnpoblacions);
-
 
         frameMenu.add(panel);
         frameMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

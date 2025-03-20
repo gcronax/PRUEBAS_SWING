@@ -65,6 +65,8 @@ public class tablasrefactorizado {
             btnconsultar.addActionListener(e -> {
                 queryData(0,true);
             });
+            btnconsultar.setFont(new Font("Arial", Font.BOLD, 18));
+            btnconsultar.setBackground(Color.lightGray);
             panel.add(btnconsultar);
 
             JButton btninsertar = new JButton("insertar");
@@ -72,6 +74,8 @@ public class tablasrefactorizado {
                 insertData();
                 frameSubMenu.setVisible(false);
             });
+            btninsertar.setFont(new Font("Arial", Font.BOLD, 18));
+            btninsertar.setBackground(Color.lightGray);
             panel.add(btninsertar);
 
             JButton btneliminar = new JButton("eliminar");
@@ -79,6 +83,8 @@ public class tablasrefactorizado {
                 deleteData();
                 frameSubMenu.setVisible(false);
             });
+            btneliminar.setFont(new Font("Arial", Font.BOLD, 18));
+            btneliminar.setBackground(Color.lightGray);
             panel.add(btneliminar);
 
             JButton btnactualizar = new JButton("actualizar");
@@ -86,6 +92,8 @@ public class tablasrefactorizado {
                 updateData();
                 frameSubMenu.setVisible(false);
             });
+            btnactualizar.setFont(new Font("Arial", Font.BOLD, 18));
+            btnactualizar.setBackground(Color.lightGray);
             panel.add(btnactualizar);
 
             JButton btnsalir = new JButton("salir");
@@ -93,6 +101,8 @@ public class tablasrefactorizado {
                 frameSubMenu.dispose();
                 main.frameMenu.setVisible(true);
             });
+            btnsalir.setFont(new Font("Arial", Font.BOLD, 18));
+            btnsalir.setBackground(Color.lightGray);
             panel.add(btnsalir);
 
 
@@ -335,7 +345,9 @@ public class tablasrefactorizado {
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         JTextField textField = new JTextField(20);
         textField.setMaximumSize(new Dimension(400,30));// Campo de texto
-        textField.setText(String.valueOf(cambiante));
+        if (cambiante!=null){
+            textField.setText(String.valueOf(cambiante));
+        }
         Timer timer = new Timer(500, new ActionListener() {
             private Object ultimoValor = cambiante;
             @Override
@@ -418,7 +430,9 @@ public class tablasrefactorizado {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JTextField textFieldid = new JTextField(20);
         textFieldid.setMaximumSize(new Dimension(400,20));
-        textFieldid.setText(String.valueOf(cambiante));
+        if (cambiante!=null){
+            textFieldid.setText(String.valueOf(cambiante));
+        }
         Timer timer = new Timer(500, new ActionListener() {
             private Object ultimoValor = cambiante;
             @Override
