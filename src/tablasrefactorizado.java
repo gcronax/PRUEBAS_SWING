@@ -165,7 +165,6 @@ public class tablasrefactorizado {
 
             table.getSelectionModel().addListSelectionListener(e ->{
                 cambiante= (int) table.getValueAt(table.getSelectedRow(),0);
-
             });
 
         } catch (Exception e) {
@@ -335,7 +334,18 @@ public class tablasrefactorizado {
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         JTextField textField = new JTextField(20);
         textField.setMaximumSize(new Dimension(400,30));// Campo de texto
-        textField.setText(String.valueOf(cambiante));
+
+        Timer timer = new Timer(500, new ActionListener() {
+            private int ultimoValor = cambiante;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (cambiante != ultimoValor) { // Solo actualiza si cambió
+                    textField.setText(String.valueOf(cambiante));
+                    ultimoValor = cambiante;
+                }
+            }
+        });
+        timer.start();
 
         JButton button = new JButton("eliminar id");
         button.addActionListener(new ActionListener() {
@@ -344,7 +354,6 @@ public class tablasrefactorizado {
                 if (mostrarDialogo(frameEliminar)){
                     try{
                         eliminar(Integer.parseInt(textField.getText()));
-
                     }catch (Exception es) {
                         System.out.println("Error al eliminar el " + entityName + ": " + es.getMessage());
                     }
@@ -408,8 +417,17 @@ public class tablasrefactorizado {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JTextField textFieldid = new JTextField(20);
         textFieldid.setMaximumSize(new Dimension(400,20));
-
-        textFieldid.setText(String.valueOf(cambiante));
+        Timer timer = new Timer(500, new ActionListener() {
+            private int ultimoValor = cambiante;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (cambiante != ultimoValor) { // Solo actualiza si cambió
+                    textFieldid.setText(String.valueOf(cambiante));
+                    ultimoValor = cambiante;
+                }
+            }
+        });
+        timer.start();
         JLabel labelid = new JLabel("Ingrese el ID del " + entityName);
         panel.add(labelid);
         panel.add(textFieldid);
