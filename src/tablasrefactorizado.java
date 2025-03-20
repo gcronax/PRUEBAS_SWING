@@ -21,7 +21,7 @@ public class tablasrefactorizado {
     private static JFrame frameInsertar = null;
     private static JFrame frameEliminar = null;
     private static JFrame frameActualizar = null;
-    public static int cambiante;
+    public static Object cambiante;
     private static final String URL = "jdbc:postgresql://89.36.214.106:5432/geo_1cfsl_3267g";
     private static final String USER = "geo_1cfsl_3267g";
     private static final String PASSWORD = "geo_1cfsl_3267g";
@@ -164,7 +164,8 @@ public class tablasrefactorizado {
             });
 
             table.getSelectionModel().addListSelectionListener(e ->{
-                cambiante= (int) table.getValueAt(table.getSelectedRow(),0);
+                cambiante= table.getValueAt(table.getSelectedRow(),0);
+
             });
 
         } catch (Exception e) {
@@ -334,9 +335,9 @@ public class tablasrefactorizado {
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         JTextField textField = new JTextField(20);
         textField.setMaximumSize(new Dimension(400,30));// Campo de texto
-
+        textField.setText(String.valueOf(cambiante));
         Timer timer = new Timer(500, new ActionListener() {
-            private int ultimoValor = cambiante;
+            private Object ultimoValor = cambiante;
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (cambiante != ultimoValor) { // Solo actualiza si cambió
@@ -417,8 +418,9 @@ public class tablasrefactorizado {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JTextField textFieldid = new JTextField(20);
         textFieldid.setMaximumSize(new Dimension(400,20));
+        textFieldid.setText(String.valueOf(cambiante));
         Timer timer = new Timer(500, new ActionListener() {
-            private int ultimoValor = cambiante;
+            private Object ultimoValor = cambiante;
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (cambiante != ultimoValor) { // Solo actualiza si cambió

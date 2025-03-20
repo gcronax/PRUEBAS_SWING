@@ -21,6 +21,7 @@ public class main {
             tablasrefactorizado.menuTablas("piso","pisos");
             frameMenu.setVisible(false);
         });
+        btnpisos.setFont(new Font("Arial", Font.BOLD, 18));
         panel.add(btnpisos);
 
         JButton btnpropietarios = new JButton("propietarios");
